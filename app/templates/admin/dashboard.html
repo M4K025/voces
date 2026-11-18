@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<style>
+  .stat-card { @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5; }
+  .stat-number { @apply text-2xl font-bold text-indigo-600 dark:text-indigo-400; }
+  .stat-label { @apply text-sm text-gray-500 dark:text-gray-400; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Panel de administración</h1>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Dashboard de datos agregados y cola de moderación.</p>
+    </div>
+    <div class="flex gap-2">
+      <a href="/admin/moderacion" class="btn btn-secondary">Cola de moderación</a>
+      <a href="/admin/export/pdf" class="btn btn-primary">Exportar PDF</a>
+      <a href="/admin/export/csv" class="btn btn-secondary">Exportar CSV anonimizado</a>
+    </div>
+  </header>
+
+  <!-- Resumen -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+    <div class="stat-card">
+      <div class="stat-number">{{ summary.total_reports }}</div>
+      <div class="stat-label">Reportes aprobados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ summary.pending_reports }}</div>
+      <div class="stat-label">Pendientes de moderación</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ summary.min_group }}</div>
+      <div class="stat-label">Umbral mínimo por grupo (re-identificación)</div>
+    </div>
+  </div>
+
+  <!-- Gráficas -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="chart-wrap">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Reportes por categoría</h2>
+      <canvas id="catChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Reportes por lugar</h2>
+      <canvas id="placeChart"></canvas>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="chart-wrap">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Por rol de quien lo dijo</h2>
+      <canvas id="roleChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Evolución por semestre / mes</h2>
+      <canvas id="timeChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Tabla por categoría con ocultados -->
+  <div class="card">
+    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Detalle por categoría</h2>
+    <table class="admin">
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Casos</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in summary.by_category %}
+        <tr>
+          <td>{{ item.label }}</td>
+          <td>{{ item.count }}</td>
+          <td>
+            {% if item.hidden %}
+              <span class="text-xs text-amber-600 dark:text-amber-400">Oculto (umbral < {{ summary.min_group }})</span>
+            {% else %}
+              <span class="text-xs text-gray-600 dark:text-gray-400">Visible</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Percepción -->
+  <div class="card">
+    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Encuesta de percepción (promedios)</h2>
+    {% if summary.perception %}
+    <table class="admin">
+      <thead>
+        <tr><th>Pregunta</th><th>Promedio (1-5)</th><th>Respuestas</th></tr>
+      </thead>
+      <tbody>
+        {% for qid, stats in summary.perception.items() %}
+        <tr>
+          <td>{{ qid }}</td>
+          <td>{{ stats.average }}</td>
+          <td>{{ stats.count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-gray-500 dark:text-gray-400">No hay respuestas de encuesta aún.</p>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  const ctxCat = document.getElementById('catChart').getContext('2d');
+  new Chart(ctxCat, {
+    type: 'bar',
+    data: {
+      labels: [{% for item in summary.by_category %}'{{ item.label }}',{% endfor %}],
+      datasets: [{ label: 'Casos', data: [{% for item in summary.by_category %}{{ item.count }},{% endfor %}], backgroundColor: '#4f46e5' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+  const ctxPlace = document.getElementById('placeChart').getContext('2d');
+  new Chart(ctxPlace, {
+    type: 'bar',
+    data: {
+      labels: [{% for item in summary.by_place %}'{{ item.place }}',{% endfor %}],
+      datasets: [{ label: 'Casos', data: [{% for item in summary.by_place %}{{ item.count }},{% endfor %}], backgroundColor: '#059669' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+  const ctxRole = document.getElementById('roleChart').getContext('2d');
+  new Chart(ctxRole, {
+    type: 'pie',
+    data: {
+      labels: [{% for item in summary.by_actor_role %}'{{ item.actor_role }}',{% endfor %}],
+      datasets: [{ data: [{% for item in summary.by_actor_role %}{{ item.count }},{% endfor %}], backgroundColor: ['#4f46e5','#059669','#d97706','#be185d','#2563eb'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+  const ctxTime = document.getElementById('timeChart').getContext('2d');
+  new Chart(ctxTime, {
+    type: 'line',
+    data: {
+      labels: [{% for item in summary.over_time %}'{{ item.period }}',{% endfor %}],
+      datasets: [{ label: 'Casos', data: [{% for item in summary.over_time %}{{ item.count }},{% endfor %}], borderColor: '#4f46e5', fill: false, tension: 0.3 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+</script>
+{% endblock %}

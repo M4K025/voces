@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-6">
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Lo que se escucha</h1>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+        Frases y situaciones anónimas aprobadas por el equipo de moderación. Puedes filtrar por categoría, lugar y semestre.
+      </p>
+    </div>
+    <a href="/reportar" class="btn btn-primary">+ Reportar de forma anónima</a>
+  </header>
+
+  <!-- Filtros -->
+  <form method="get" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Categoría</label>
+    <select name="category" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500">
+      <option value="">Todas</option>
+      {% for key, label in category_labels.items() %}
+        <option value="{{ key }}" {% if current_category == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Lugar</label>
+    <select name="place" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500">
+      <option value="">Todos</option>
+      {% for p in places %}
+        <option value="{{ p.key }}" {% if current_place == p.key %}selected{% endif %}>{{ p.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Semestre / mes</label>
+    <select name="period" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500">
+      <option value="">Todos</option>
+      {% for p in periods %}
+        <option value="{{ p }}" {% if current_period == p %}selected{% endif %}>{{ p }}</option>
+      {% endfor %}
+    </select>
+
+    <div class="flex items-end">
+      <button class="btn btn-primary w-full sm:w-auto">Filtrar</button>
+      <a href="/" class="btn btn-secondary w-full sm:w-auto text-center">Limpiar</a>
+    </div>
+  </form>
+
+  <p class="text-sm text-gray-600 dark:text-gray-400">{{ total }} reporte{{ 's' if total != 1 else '' }} aprobado{{ 's' if total != 1 else '' }}.</p>
+
+  <!-- Muro de reportes -->
+  <div class="space-y-4">
+    {% for r in reports %}
+    <article class="report-card">
+      <div class="flex justify-between items-start mb-2">
+        <span class="category bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">
+          {{ category_labels.get(r.category, r.category) }}
+        </span>
+        {% if r.is_demo %}
+          <span class="badge-demo">DEMO</span>
+        {% endif %}
+      </div>
+      <p class="text-gray-800 dark:text-gray-200 text-base leading-relaxed mb-3">{{ r.content }}</p>
+      <div class="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400 mb-3">
+        <span>{{ r.place }}</span>
+        {% if r.period %}<span>· {{ r.period }}</span>{% endif %}
+        {% if r.actor_role %}<span>· Dijo: {{ r.actor_role }}</span>{% endif %}
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          onclick="voteReport({{ r.id }})"
+          class="btn btn-secondary flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-600"
+          aria-label="A mí también me pasó"
+          title="A mí también me pasó"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 3"></path></svg>
+          <span id="vote-text-{{ r.id }}">A mí también me pasó</span>
+        </button>
+        <span id="vote-count-{{ r.id }}" class="text-xs text-gray-500 dark:text-gray-400"></span>
+      </div>
+    </article>
+    {% else %}
+    <div class="text-center py-12">
+      <p class="text-gray-500 dark:text-gray-400">No hay reportes aprobados aún con estos filtros.</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Paginación -->
+  {% if pages > 1 %}
+  <nav class="flex justify-center gap-2" aria-label="Paginación">
+    {% if page > 1 %}
+      <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ page - 1 }}" class="px-3 py-1 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Anterior</a>
+    {% endif %}
+    {% for p in range(1, pages + 1) %}
+      {% if p == page %}
+        <span class="px-3 py-1 rounded border bg-indigo-600 text-white border-indigo-600">{{ p }}</span>
+      {% else %}
+        <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ p }}" class="px-3 py-1 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if page < pages %}
+      <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ page + 1 }}" class="px-3 py-1 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Siguiente</a>
+    {% endif %}
+  </nav>
+  {% endif %}
+</div>
+
+<script>
+  async function voteReport(reportId) {
+    const btn = document.querySelector(`button[onclick="voteReport(${reportId})"]`);
+    const text = document.getElementById(`vote-text-${reportId}`);
+    const countEl = document.getElementById(`vote-count-${reportId}`);
+    try {
+      const res = await fetch(`/votar/${reportId}`, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      const data = await res.json();
+      if (data.ok) {
+        text.textContent = '¡Gracias!';
+        countEl.textContent = '(' + data.count + ')';
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        countEl.textContent = '(' + data.count + ')';
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+    } catch (e) {
+      alert('No se pudo registrar el voto. Inténtalo de nuevo.');
+    }
+  }
+</script>
+{% endblock %}

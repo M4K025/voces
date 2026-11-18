@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+  <div class="card mb-6">
+    <h1 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Reportar de forma anónima</h1>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Cuéntanos qué escuchaste o viviste relacionado con género en la sede de Ingeniería.
+      <strong>No pongas nombres propios, correos, teléfonos ni códigos estudiantiles.</strong>
+      El reporte es completamente anónimo: no guardamos tu IP ni ningún dato de contacto.
+    </p>
+  </div>
+
+  <div class="alert alert-info mb-6">
+    <strong>Aviso de privacidad (Ley 1581 de 2012 - Habeas Data, Colombia):</strong>
+    Este formulario no recolecta datos personales identificables. Tu dirección IP se usa solo con un hash temporal y no persistente para evitar envíos masivos, y se descarta al terminar. No se usan cookies de seguimiento. Puedes leer más sobre el tratamiento de datos en el aviso visible en esta página.
+  </div>
+
+  <form method="post" action="/reportar" class="space-y-5">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    <div>
+      <label for="content">¿Qué escuchaste o ocurrió? <span class="text-red-500">*</span></label>
+      <textarea id="content" name="content" rows="5" maxlength="500" required placeholder="Ejemplo: un comentario sexista en el salón, exclusión en un trabajo grupal, burla por orientación..." class="w-full"></textarea>
+      <p class="text-xs text-gray-500 mt-1">Máximo 500 caracteres. No incluyas nombres, correos, teléfonos ni códigos.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="category">Categoría <span class="text-red-500">*</span></label>
+        <select id="category" name="category" required>
+          {% for key, label in categories %}
+            <option value="{{ key }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="place">Lugar dentro de la sede <span class="text-red-500">*</span></label>
+        <select id="place" name="place" required>
+          <option value="">Selecciona un lugar</option>
+          <option value="salon">Salón de clases</option>
+          <option value="laboratorio">Laboratorio</option>
+          <option value="cafeteria">Cafetería</option>
+          <option value="pasillos">Pasillos</option>
+          <option value="canchas">Canchas</option>
+          <option value="virtual">Virtual / chat</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="actor_role">¿Quién lo dijo? (sin nombres propios)</label>
+        <select id="actor_role" name="actor_role">
+          <option value="">Selecciona</option>
+          <option value="estudiante">Estudiante</option>
+          <option value="docente">Docente</option>
+          <option value="administrativo">Administrativo</option>
+          <option value="externo">Externo</option>
+          <option value="no_se">No sé / prefiero no decir</option>
+        </select>
+      </div>
+      <div>
+        <label for="period">Fecha aproximada (semestre / mes)</label>
+        <input type="text" id="period" name="period" placeholder="Ej: 2024-1, mayo 2024">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="is_witness">¿Fuiste testigo o víctima?</label>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2">
+            <input type="radio" name="is_witness" value="true"> Testigo
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="is_witness" value="false"> Víctima
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="is_witness" checked value=""> No especificar
+          </label>
+        </div>
+      </div>
+      <div class="flex items-end">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Carrera</label>
+        <input type="text" id="career" name="career" placeholder="Ej: Ingeniería de Sistemas">
+      </div>
+    </div>
+
+    <div>
+      <label for="semester">Semestre (opcional)</label>
+      <input type="text" id="semester" name="semester" placeholder="Ej: 5to semestre">
+    </div>
+
+    <div class="pt-4 flex justify-end">
+      <button type="submit" class="btn btn-primary">Enviar reporte de forma anónima</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
