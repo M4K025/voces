@@ -2,24 +2,24 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Gestionar directorio de apoyo</h1>
-  <p class="text-gray-600 dark:text-gray-400 mb-6">
+  <h1 class="text-2xl font-bold mb-6">Gestionar directorio de apoyo</h1>
+  <p class="text-sm mb-6">
     Los recursos marcados como <span class="badge-demo">PLACEHOLDER, verificar</span> son de ejemplo. No inventes teléfonos ni correos reales.
   </p>
 
   <form method="post" action="/admin/apoyo" class="card mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-    <div class="col-span-full sm:col-span-2">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Título</label>
-      <input type="text" name="title" required class="w-full">
+    <div class="sm:col-span-2 lg:col-span-2">
+      <label class="block text-sm font-medium mb-1" for="title">Título</label>
+      <input type="text" name="title" id="title" required class="w-full">
     </div>
-    <div class="col-span-full">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
-      <textarea name="description" rows="2" required class="w-full"></textarea>
+    <div class="sm:col-span-2">
+      <label class="block text-sm font-medium mb-1" for="description">Descripción</label>
+      <textarea name="description" id="description" rows="2" required class="w-full"></textarea>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo</label>
-      <select name="resource_type" class="w-full">
+      <label class="block text-sm font-medium mb-1" for="resource_type">Tipo</label>
+      <select name="resource_type" id="resource_type" class="w-full">
         <option value="universidad">Universidad</option>
         <option value="nacional">Nacional</option>
         <option value="psicologica">Psicológica</option>
@@ -27,35 +27,35 @@
       </select>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
-      <input type="text" name="phone" placeholder="Opcional">
+      <label class="block text-sm font-medium mb-1" for="phone">Teléfono</label>
+      <input type="text" name="phone" id="phone" placeholder="Opcional" class="w-full">
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo</label>
-      <input type="email" name="email" placeholder="Opcional">
+      <label class="block text-sm font-medium mb-1" for="email">Correo</label>
+      <input type="email" name="email" id="email" placeholder="Opcional" class="w-full">
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL</label>
-      <input type="url" name="url" placeholder="Opcional">
+      <label class="block text-sm font-medium mb-1" for="url">URL</label>
+      <input type="url" name="url" id="url" placeholder="Opcional" class="w-full">
     </div>
-    <div class="col-span-full flex items-center gap-2">
-      <input type="checkbox" name="is_placeholder" value="on">
-      <label class="text-sm">Marcar como PLACEHOLDER, verificar</label>
+    <div class="sm:col-span-2 flex items-center gap-2">
+      <input type="checkbox" name="is_placeholder" value="on" id="is_placeholder">
+      <label class="text-sm" for="is_placeholder">Marcar como PLACEHOLDER, verificar</label>
     </div>
-    <div class="col-span-full flex items-center gap-2">
-      <input type="checkbox" name="is_active" value="on" checked>
-      <label class="text-sm">Activo</label>
+    <div class="sm:col-span-2 flex items-center gap-2">
+      <input type="checkbox" name="is_active" value="on" id="is_active" checked>
+      <label class="text-sm" for="is_active">Activo</label>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Orden</label>
-      <input type="number" name="order_index" value="0" class="w-full">
+      <label class="block text-sm font-medium mb-1" for="order_index">Orden</label>
+      <input type="number" name="order_index" id="order_index" value="0" class="w-full">
     </div>
-    <div class="col-span-full pt-2">
+    <div class="sm:col-span-2 pt-2">
       <button type="submit" class="btn btn-primary">Agregar / actualizar recurso</button>
     </div>
   </form>
 
-  <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Recursos actuales</h2>
+  <h2 class="text-lg font-bold mb-4">Recursos actuales</h2>
   <div class="overflow-x-auto">
     <table class="admin">
       <thead>

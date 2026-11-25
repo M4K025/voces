@@ -3,16 +3,16 @@
 {% block content %}
 <div class="max-w-md mx-auto">
   <div class="card text-center py-10">
-    <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-      <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 3"></path></svg>
+    <div class="w-16 h-16 icon-circle icon-success flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 3"></path></svg>
     </div>
-    <h1 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Gracias por compartirlo</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-6">
+    <h1 class="text-xl font-bold mb-2">Gracias por compartirlo</h1>
+    <p class="mb-6">
       Tu reporte ha sido enviado de forma anónima y quedará en cola de moderación antes de publicarse en el muro público.
     </p>
 
     <div class="alert alert-info text-left mb-6">
-      <strong>Mensaje de apoyo:</strong> No estás solo/a. Si lo necesitas, puedes acercarte al Bienestar Universitario o contactar los canales de apoyo listados en la sección <a href="/apoyo" class="text-indigo-600 dark:text-indigo-400 underline">Directorio de apoyo</a>. Todos los recursos son confidenciales.
+      <strong>Mensaje de apoyo:</strong> No estás solo/a. Si lo necesitas, puedes acercarte al Bienestar Universitario o contactar los canales de apoyo listados en la sección <a href="/apoyo" class="underline">Directorio de apoyo</a>. Todos los recursos son confidenciales.
     </div>
 
     {% if pii_flagged %}

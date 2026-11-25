@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="max-w-5xl mx-auto">
-  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Cola de moderación</h1>
-  <p class="text-gray-600 dark:text-gray-400 mb-6">
+  <h1 class="text-2xl font-bold mb-6">Cola de moderación</h1>
+  <p class="text-sm mb-6">
     Todos los reportes entran como <em>pendiente</em>. Solo los aprobados se muestran públicamente. Si un texto identifica a alguien, márcalo para revisión.
   </p>
 
@@ -22,12 +22,20 @@
           <td class="text-sm">{{ r.category }}</td>
           <td class="text-sm">{{ r.place }}</td>
           <td>
-            <span class="px-2 py-1 rounded text-xs {% if r.status=='aprobado' %}bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400{% elif r.status=='rechazado' %}bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300{% endif %}">
-              {{ r.status }}
-            </span>
+            {% if r.status == 'aprobado' %}
+            <span class="status-badge status-aprobado">{{ r.status }}</span>
+            {% elif r.status == 'rechazado' %}
+            <span class="status-badge status-rechazado">{{ r.status }}</span>
+            {% else %}
+            <span class="status-badge status-pendiente">{{ r.status }}</span>
+            {% endif %}
           </td>
           <td>
-            {% if r.pii_flagged %}<span class="text-xs text-amber-600 dark:text-amber-400">⚠️ Sí</span>{% else %}<span class="text-xs text-gray-500">No</span>{% endif %}
+            {% if r.pii_flagged %}
+            <span class="text-xs note-warn">⚠️ Sí</span>
+            {% else %}
+            <span class="text-xs note-muted">No</span>
+            {% endif %}
           </td>
           <td>
             {% if r.status == 'pendiente' %}
@@ -42,7 +50,7 @@
               <button type="submit" class="btn btn-danger text-xs">Rechazar</button>
             </form>
             {% else %}
-            <span class="text-xs text-gray-500">Ya procesado</span>
+            <span class="text-xs note-muted">Ya procesado</span>
             {% endif %}
           </td>
         </tr>
@@ -53,7 +61,7 @@
 
   {% if not reports %}
   <div class="text-center py-12">
-    <p class="text-gray-500 dark:text-gray-400">No hay reportes en la cola de moderación.</p>
+    <p>No hay reportes en la cola de moderación.</p>
   </div>
   {% endif %}
 </div>

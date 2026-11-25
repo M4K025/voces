@@ -40,12 +40,12 @@
   </style>
   {% block extra_head %}{% endblock %}
 </head>
-<body class="font-sans antialiased transition-colors duration-300">
+<body class="antialiased transition-colors duration-300">
   {% block skip_nav %}
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50">Saltar al contenido principal</a>
   {% endblock %}
 
-  <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-gray-200">
+  <nav class="site-nav sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-20 items-center">
         <div class="flex items-center gap-3">
@@ -53,18 +53,18 @@
             V
           </div>
           <div>
-            <h1 class="text-xl font-bold tracking-tight text-black">VOCES</h1>
-            <span class="text-xs font-medium text-violet-700 uppercase tracking-wider">Facultad de Ingeniería</span>
+            <h1 class="text-xl font-bold tracking-tight">VOCES</h1>
+            <span class="text-xs font-medium nav-subtitle uppercase tracking-wider">Facultad de Ingeniería</span>
           </div>
         </div>
         <div class="flex items-center gap-3">
           {% if admin_user %}
-            <a href="/admin" class="text-sm font-semibold text-black hover:text-violet-700 transition-colors px-3 py-2 rounded-lg bg-violet-50 hover:bg-violet-100">Panel admin</a>
-            <a href="/admin/logout" class="text-sm font-semibold text-black hover:text-violet-700 transition-colors px-3 py-2 rounded-lg bg-violet-50 hover:bg-violet-100">Cerrar sesión</a>
+            <a href="/admin" class="nav-link text-sm font-semibold">Panel admin</a>
+            <a href="/admin/logout" class="nav-link text-sm font-semibold">Cerrar sesión</a>
           {% else %}
-            <a href="/admin/login" class="text-sm font-semibold text-black hover:text-violet-700 transition-colors px-3 py-2 rounded-lg bg-violet-50 hover:bg-violet-100">Acceso administración</a>
+            <a href="/admin/login" class="nav-link text-sm font-semibold">Acceso administración</a>
           {% endif %}
-          <button id="themeToggle" class="w-10 h-10 rounded-xl flex items-center justify-center text-black hover:bg-gray-100 transition-all border border-gray-300" aria-label="Cambiar modo claro/oscuro" title="Modo claro/oscuro">
+          <button id="themeToggle" class="w-10 h-10 rounded-xl flex items-center justify-center nav-toggle transition-all" aria-label="Cambiar modo claro/oscuro" title="Modo claro/oscuro">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
         </div>

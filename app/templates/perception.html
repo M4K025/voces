@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="max-w-md mx-auto">
-  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Encuesta corta de percepción</h1>
-  <p class="text-gray-600 dark:text-gray-400 mb-8">
+  <h1 class="text-2xl font-bold mb-6">Encuesta corta de percepción</h1>
+  <p class="mb-8">
     Responde del 1 (totalmente en desacuerdo) al 5 (totalmente de acuerdo). Es anónima y los resultados se agregan al dashboard.
   </p>
 
@@ -11,12 +11,12 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     {% for q in questions %}
     <div class="card p-4">
-      <p class="font-medium text-gray-900 dark:text-white mb-3">{{ loop.index }}. {{ q.text }}</p>
+      <p class="font-medium mb-3">{{ loop.index }}. {{ q.text }}</p>
       <div class="flex gap-3">
         {% for v in range(1, 6) %}
-        <label class="flex-1 flex flex-col items-center p-2 border rounded-lg cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">
-          <input type="radio" name="{{ q.id }}" value="{{ v }}" required class="w-4 h-4 mt-1">
-          <span class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ v }}</span>
+        <label class="option-label">
+          <input type="radio" name="{{ q.id }}" value="{{ v }}" required>
+          <span class="option-number">{{ v }}</span>
         </label>
         {% endfor %}
       </div>

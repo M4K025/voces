@@ -3,8 +3,8 @@
 {% block content %}
 <div class="max-w-2xl mx-auto">
   <div class="card mb-6">
-    <h1 class="text-xl font-bold text-black mb-2">Reportar de forma anónima</h1>
-    <p class="text-sm text-black mb-4">
+    <h1 class="text-xl font-bold mb-2">Reportar de forma anónima</h1>
+    <p class="text-sm mb-4">
       Cuéntanos qué escuchaste o viviste relacionado con género en la sede de Ingeniería.
       <strong>No pongas nombres propios, correos, teléfonos ni códigos estudiantiles.</strong>
       El reporte es completamente anónimo: no guardamos tu IP ni ningún dato de contacto.
@@ -20,14 +20,14 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
     <div>
-      <label for="content">¿Qué escuchaste o ocurrió? <span class="text-red-500">*</span></label>
+      <label for="content">¿Qué escuchaste o ocurrió? <span class="required">*</span></label>
       <textarea id="content" name="content" rows="5" maxlength="500" required placeholder="Ejemplo: un comentario sexista en el salón, exclusión en un trabajo grupal, burla por orientación..." class="w-full"></textarea>
-      <p class="text-xs text-black mt-1">Máximo 500 caracteres. No incluyas nombres, correos, teléfonos ni códigos.</p>
+      <p class="text-xs mt-1">Máximo 500 caracteres. No incluyas nombres, correos, teléfonos ni códigos.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
-        <label for="category">Categoría <span class="text-red-500">*</span></label>
+        <label for="category">Categoría <span class="required">*</span></label>
         <select id="category" name="category" required class="category-dropdown">
           {% for key, label in categories %}
             <option value="{{ key }}">{{ label }}</option>
@@ -35,7 +35,7 @@
         </select>
       </div>
       <div>
-        <label for="place">Lugar dentro de la sede <span class="text-red-500">*</span></label>
+        <label for="place">Lugar dentro de la sede <span class="required">*</span></label>
         <select id="place" name="place" required class="category-dropdown">
           <option value="">Selecciona un lugar</option>
           <option value="salon">Salón de clases</option>
@@ -62,7 +62,7 @@
         </select>
       </div>
       <div class="flex items-end">
-        <label class="block text-sm font-medium text-black mb-1">Carrera</label>
+        <label class="block text-sm font-medium mb-1">Carrera</label>
         <input type="text" id="career" name="career" placeholder="Ej: Ingeniería de Sistemas" class="w-full">
       </div>
     </div>
@@ -83,7 +83,7 @@
         </div>
       </div>
       <div>
-        <label for="semester" class="block text-sm font-medium text-black mb-1">Semestre (opcional)</label>
+        <label for="semester" class="block text-sm font-medium mb-1">Semestre (opcional)</label>
         <input type="text" id="semester" name="semester" placeholder="Ej: 5to semestre" class="w-full">
       </div>
     </div>

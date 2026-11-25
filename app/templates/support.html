@@ -2,28 +2,28 @@
 
 {% block content %}
 <div class="max-w-3xl mx-auto">
-  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Directorio de apoyo</h1>
-  <p class="text-gray-600 dark:text-gray-400 mb-8">
+  <h1 class="text-2xl font-bold mb-6">Directorio de apoyo</h1>
+  <p class="mb-8">
     Rutas de atención y canales de apoyo. Los datos marcados como <span class="badge-demo">PLACEHOLDER, verificar</span> son de ejemplo y deben confirmarse antes de usarse.
   </p>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     {% for r in resources %}
     <div class="card">
-      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{ r.title }}</h2>
+      <h2 class="text-lg font-bold mb-1">{{ r.title }}</h2>
       {% if r.is_placeholder %}
         <span class="badge-demo">PLACEHOLDER, verificar</span>
       {% endif %}
-      <p class="text-gray-700 dark:text-gray-300 mb-3 mt-1">{{ r.description }}</p>
-      <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+      <p class="mb-3 mt-1">{{ r.description }}</p>
+      <ul class="text-sm space-y-1">
         {% if r.phone %}<li><strong>Tel:</strong> {{ r.phone }}</li>{% endif %}
         {% if r.email %}<li><strong>Correo:</strong> {{ r.email }}</li>{% endif %}
-        {% if r.url %}<li><strong>Web:</strong> <a href="{{ r.url }}" target="_blank" rel="noopener" class="text-indigo-600 dark:text-indigo-400">{{ r.url }}</a></li>{% endif %}
+        {% if r.url %}<li><strong>Web:</strong> <a href="{{ r.url }}" target="_blank" rel="noopener" class="underline">{{ r.url }}</a></li>{% endif %}
       </ul>
     </div>
     {% else %}
     <div class="text-center py-12">
-      <p class="text-gray-500 dark:text-gray-400">No hay recursos de apoyo configurados.</p>
+      <p>No hay recursos de apoyo configurados.</p>
     </div>
     {% endfor %}
   </div>
