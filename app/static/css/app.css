@@ -30,14 +30,14 @@
   --voces-danger-bg: #fef2f2;
 }
 
-/* MODO OSCURO — aplicado vía body.dark-mode */
+/* MODO OSCURO — aplicado vía body.dark-mode (fondo más negro, menos azul) */
 body.dark-mode {
-  --voces-bg: #0f172a;
-  --voces-bg-alt: #1e293b;
-  --voces-text: #f8fafc;
-  --voces-text-muted: #94a3b8;
-  --voces-border: #334155;
-  --voces-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --voces-bg: #0a0a0a;
+  --voces-bg-alt: #141414;
+  --voces-text: #ffffff;
+  --voces-text-muted: #a1a1aa;
+  --voces-border: #27272a;
+  --voces-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
 }
 
 * { box-sizing: border-box; }
@@ -304,12 +304,17 @@ body.dark-mode .filter-select {
   border: 1px solid var(--voces-border);
   border-radius: 16px;
   padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   box-shadow: var(--voces-shadow);
   transition: all 0.3s ease;
 }
 .report-card:hover { transform: translateY(-2px); }
 body.dark-mode .report-card:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.35); }
+
+/* Separación adicional entre reportes en el muro */
+.report-card + .report-card {
+  margin-top: 1rem;
+}
 
 .report-card .category {
   display: inline-flex;
@@ -419,10 +424,18 @@ body.dark-mode .vote-badge {
   border-color: #7e22ce;
 }
 
-/* Footer */
+/* Footer — legible en modo oscuro */
 footer {
   border-top: 2px solid var(--voces-border);
   margin-top: auto;
+}
+body.dark-mode footer p,
+body.dark-mode footer span,
+body.dark-mode footer div {
+  color: #ffffff !important;
+}
+body.dark-mode footer a {
+  color: #a78bfa !important;
 }
 
 /* Badge de estado */
