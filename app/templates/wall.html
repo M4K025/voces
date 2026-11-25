@@ -67,13 +67,13 @@
           <span class="badge-demo">DEMO</span>
         {% endif %}
       </div>
-      <p class="text-lg leading-relaxed mb-3">{{ r.content }}</p>
-      <div class="flex flex-wrap gap-2 text-sm mb-3">
-        <span class="font-medium">📍 {{ r.place }}</span>
-        {% if r.period %}<span class="font-medium">· {{ r.period }}</span>{% endif %}
-        {% if r.actor_role %}<span class="font-medium">· Dijo: {{ r.actor_role }}</span>{% endif %}
+      <p class="report-text">{{ r.content }}</p>
+      <div class="meta-info">
+        <span>📍 {{ r.place }}</span>
+        {% if r.period %}<span>· {{ r.period }}</span>{% endif %}
+        {% if r.actor_role %}<span>· Dijo: {{ r.actor_role }}</span>{% endif %}
       </div>
-      <div class="flex items-center gap-4">
+      <div class="vote-section">
         <button
           onclick="voteReport({{ r.id }})"
           class="btn btn-secondary flex items-center gap-2"
@@ -83,7 +83,7 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 3"></path></svg>
           <span id="vote-text-{{ r.id }}">A mí también me pasó</span>
         </button>
-        <span id="vote-count-{{ r.id }}" class="font-semibold"></span>
+        <span id="vote-count-{{ r.id }}" class="font-semibold text-black"></span>
       </div>
     </article>
     {% else %}
