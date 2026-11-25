@@ -11,26 +11,26 @@
   <link rel="stylesheet" href="/static/css/app.css">
   {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased transition-colors duration-300 {% if dark_mode %}dark{% endif %}">
+<body class="font-sans antialiased {% if dark_mode %}dark{% endif %}">
   {% block skip_nav %}
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50">Saltar al contenido principal</a>
   {% endblock %}
 
-  <nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 shadow-sm">
+  <nav class="bg-white dark:bg-violet-900 border-b border-violet-600 dark:border-violet-400 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <div class="flex items-center gap-2">
-          <span class="font-bold text-xl text-indigo-700 dark:text-indigo-400">VOCES</span>
-          <span class="text-sm text-gray-600 dark:text-gray-400">Facultad de Ingeniería</span>
+          <span class="font-bold text-xl text-violet-700 dark:text-violet-300">VOCES</span>
+          <span class="text-sm text-violet-600 dark:text-violet-200">Facultad de Ingeniería</span>
         </div>
         <div class="flex items-center gap-3">
           {% if admin_user %}
-            <a href="/admin" class="text-sm text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Panel admin</a>
-            <a href="/admin/logout" class="text-sm text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Cerrar sesión</a>
+            <a href="/admin" class="text-sm text-violet-700 dark:text-violet-200 hover:text-violet-900 dark:hover:text-violet-100 font-medium">Panel admin</a>
+            <a href="/admin/logout" class="text-sm text-violet-700 dark:text-violet-200 hover:text-violet-900 dark:hover:text-violet-100 font-medium">Cerrar sesión</a>
           {% else %}
-            <a href="/admin/login" class="text-sm text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Acceso administración</a>
+            <a href="/admin/login" class="text-sm text-violet-700 dark:text-violet-200 hover:text-violet-900 dark:hover:text-violet-100 font-medium">Acceso administración</a>
           {% endif %}
-          <button id="themeToggle" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="Cambiar modo claro/oscuro" title="Modo claro/oscuro">
+          <button id="themeToggle" class="text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100" aria-label="Cambiar modo claro/oscuro" title="Modo claro/oscuro">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
         </div>
@@ -42,14 +42,14 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 mt-auto py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-      <p>VOCES — Visibilización de problemáticas de género, Facultad de Ingeniería, Universidad Distrital Francisco José de Caldas.</p>
-      <p>Herramienta anónima y segura. No se guardan IPs, correos ni cookies de seguimiento. Conforme a la Ley 1581 de 2012 (Habeas Data, Colombia).</p>
+  <footer class="border-t border-violet-600 dark:border-violet-400 bg-white dark:bg-violet-900 mt-auto py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+      <p class="text-violet-700 dark:text-violet-200 font-medium">VOCES — Visibilización de problemáticas de género, Facultad de Ingeniería, Universidad Distrital Francisco José de Caldas.</p>
+      <p class="text-violet-600 dark:text-violet-300">Herramienta anónima y segura. No se guardan IPs, correos ni cookies de seguimiento. Conforme a la Ley 1581 de 2012 (Habeas Data, Colombia).</p>
       <div class="flex gap-4">
-        <a href="/categorias" class="hover:text-indigo-600 dark:hover:text-indigo-400">Categorías</a>
-        <a href="/apoyo" class="hover:text-indigo-600 dark:hover:text-indigo-400">Apoyo</a>
-        <a href="/como-actuar" class="hover:text-indigo-600 dark:hover:text-indigo-400">Cómo actuar</a>
+        <a href="/categorias" class="text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100 font-medium">Categorías</a>
+        <a href="/apoyo" class="text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100 font-medium">Apoyo</a>
+        <a href="/como-actuar" class="text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100 font-medium">Cómo actuar</a>
       </div>
     </div>
   </footer>
