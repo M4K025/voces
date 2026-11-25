@@ -11,25 +11,32 @@
   <link rel="stylesheet" href="/static/css/app.css">
   <style>
     /* Prevenir parpadeo de tema al cargar */
-    [data-theme="dark"] body { background-color: #0f172a; color: #f8fafc; }
-    [data-theme="dark"] .card { background-color: #1e293b; border-color: #334155; }
-    [data-theme="dark"] .report-card { background-color: #1e293b; border-color: #334155; }
-    [data-theme="dark"] .chart-wrap { background-color: #1e293b; border-color: #334155; }
-    [data-theme="dark"] table.admin th { background-color: #1e293b; color: #cbd5e1; }
-    [data-theme="dark"] table.admin td { border-color: #334155; color: #f8fafc; }
+    [data-theme="dark"] body { background-color: #0a0a0a; color: #ffffff; }
+    [data-theme="dark"] .card { background-color: #141414; border-color: #27272a; }
+    [data-theme="dark"] .report-card { background-color: #141414; border-color: #27272a; }
+    [data-theme="dark"] .chart-wrap { background-color: #141414; border-color: #27272a; }
+    [data-theme="dark"] table.admin th { background-color: #141414; color: #a1a1aa; }
+    [data-theme="dark"] table.admin td { border-color: #27272a; color: #ffffff; }
     [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select {
-      background-color: #1e293b; color: #f8fafc; border-color: #334155;
+      background-color: #141414; color: #ffffff; border-color: #27272a;
     }
     [data-theme="dark"] .filter-section { background: linear-gradient(135deg, #1e1b4b, #312e81); border-color: #4c1d95; }
     [data-theme="dark"] .filter-section .filter-label { color: #a78bfa; }
-    [data-theme="dark"] .btn-secondary { background-color: #1e293b; color: #f8fafc; border-color: #334155; }
-    [data-theme="dark"] .btn-secondary:hover { background-color: #334155; }
+    [data-theme="dark"] .btn-secondary { background-color: #141414; color: #ffffff; border-color: #27272a; }
+    [data-theme="dark"] .btn-secondary:hover { background-color: #27272a; }
     [data-theme="dark"] .vote-badge { background-color: #581c87; color: #c7d2fe; border-color: #7e22ce; }
     [data-theme="dark"] .category { background: linear-gradient(135deg, #312e81, #4c1d95); color: #c7d2fe; border-color: #5b21b6; }
-    [data-theme="dark"] .pagination a { background-color: #1e293b; color: #f8fafc; border-color: #334155; }
+    [data-theme="dark"] .pagination a { background-color: #141414; color: #ffffff; border-color: #27272a; }
     [data-theme="dark"] .pagination a:hover { background-color: #7e22ce; color: #ffffff; border-color: #7e22ce; }
-    [data-theme="dark"] footer { border-top-color: #334155; }
-    [data-theme="dark"] .alert { background-color: #1e293b; border-color: #334155; color: #f8fafc; }
+    [data-theme="dark"] footer { border-top-color: #27272a; }
+    [data-theme="dark"] .alert { background-color: #141414; border-color: #27272a; color: #ffffff; }
+    [data-theme="dark"] .footer-text-main { color: #ffffff; }
+    [data-theme="dark"] .footer-text-muted { color: #a1a1aa; }
+    [data-theme="dark"] .footer-link { color: #c7d2fe; }
+    [data-theme="dark"] .footer-link:hover { color: #a5b4fc; }
+    [data-theme="dark"] .report-card p, [data-theme="dark"] .report-text { color: #ffffff; }
+    [data-theme="dark"] .vote-section span.font-semibold { color: #ffffff; }
+    [data-theme="dark"] .report-card .meta-info span { color: #a1a1aa; }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
@@ -87,7 +94,6 @@
       const body = document.body;
       const html = document.documentElement;
 
-      // Detectar tema guardado o preferencia del sistema
       function getInitialTheme() {
         const saved = localStorage.getItem('voces-theme');
         if (saved) return saved;

@@ -14,11 +14,11 @@
     <a href="/reportar" class="btn btn-primary">+ Reportar de forma anónima</a>
   </header>
 
-  <!-- Filtros reorganizados y claros -->
+  <!-- Filtros en caja diferenciada -->
   <form method="get" class="filters-grid">
     <div class="filter-group">
       <span class="filter-label">Categoría</span>
-      <select name="category" class="filter-select">
+      <select name="category" class="category-dropdown">
         <option value="">Todas las categorías</option>
         {% for key, label in category_labels.items() %}
           <option value="{{ key }}" {% if current_category == key %}selected{% endif %}>{{ label }}</option>
@@ -28,7 +28,7 @@
 
     <div class="filter-group">
       <span class="filter-label">Lugar</span>
-      <select name="place" class="filter-select">
+      <select name="place" class="category-dropdown">
         <option value="">Todos los lugares</option>
         {% for p in places %}
           <option value="{{ p.key }}" {% if current_place == p.key %}selected{% endif %}>{{ p.name }}</option>
@@ -38,7 +38,7 @@
 
     <div class="filter-group">
       <span class="filter-label">Semestre / mes</span>
-      <select name="period" class="filter-select">
+      <select name="period" class="category-dropdown">
         <option value="">Todos los periodos</option>
         {% for p in periods %}
           <option value="{{ p }}" {% if current_period == p %}selected{% endif %}>{{ p }}</option>
@@ -55,7 +55,7 @@
   <!-- Contador -->
   <p class="text-lg font-semibold">{{ total }} reporte{{ 's' if total != 1 else '' }} aprobado{{ 's' if total != 1 else '' }}.</p>
 
-  <!-- Muro de reportes -->
+  <!-- Muro de reportes — cada uno en su propia caja -->
   <div class="space-y-4">
     {% for r in reports %}
     <article class="report-card">
@@ -83,7 +83,7 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 3"></path></svg>
           <span id="vote-text-{{ r.id }}">A mí también me pasó</span>
         </button>
-        <span id="vote-count-{{ r.id }}" class="font-semibold text-black"></span>
+        <span id="vote-count-{{ r.id }}" class="font-semibold"></span>
       </div>
     </article>
     {% else %}
