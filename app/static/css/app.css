@@ -11,11 +11,11 @@
   --voces-purple-700: #7e22ce;
   --voces-purple-900: #581c87;
 
-  /* Colores base */
+  /* Colores base MODO CLARO — todo negro puro o casi negro */
   --voces-bg: #ffffff;
   --voces-bg-alt: #f8fafc;
-  --voces-text: #0f172a;
-  --voces-text-muted: #475569;
+  --voces-text: #000000;
+  --voces-text-muted: #374151;
   --voces-border: #cbd5e1;
   --voces-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
@@ -30,13 +30,14 @@
   --voces-danger-bg: #fef2f2;
 }
 
-html.dark {
+/* MODO OSCURO — aplicado vía body.dark-mode */
+body.dark-mode {
   --voces-bg: #0f172a;
   --voces-bg-alt: #1e293b;
   --voces-text: #f8fafc;
   --voces-text-muted: #94a3b8;
   --voces-border: #334155;
-  --voces-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --voces-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
 }
 
 * { box-sizing: border-box; }
@@ -52,7 +53,7 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Títulos expresivos */
+/* Títulos expresivos — negro puro en modo claro */
 h1, h2, h3, h4 {
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   font-weight: 800;
@@ -71,9 +72,9 @@ a {
   text-underline-offset: 2px;
   transition: color 0.2s ease;
 }
-html.dark a { color: var(--voces-purple-400); }
+body.dark-mode a { color: var(--voces-purple-400); }
 a:hover { color: var(--voces-purple-700); }
-html.dark a:hover { color: var(--voces-purple-400); }
+body.dark-mode a:hover { color: var(--voces-purple-400); }
 
 /* Utilidad accesibilidad */
 .sr-only {
@@ -91,9 +92,9 @@ html.dark a:hover { color: var(--voces-purple-400); }
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: var(--voces-shadow);
-  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  transition: all 0.4s ease;
 }
-html.dark .card {
+body.dark-mode .card {
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
 }
 
@@ -179,19 +180,25 @@ input, textarea, select {
   border: 2px solid var(--voces-border);
   border-radius: 12px;
   margin-top: 0.25rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.4s ease, color 0.4s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--voces-purple-600);
   box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
 }
-html.dark input,
-html.dark textarea,
-html.dark select {
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
   background-color: var(--voces-bg-alt);
   border-color: var(--voces-border);
   color: var(--voces-text);
+}
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+  border-color: var(--voces-purple-400);
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.25);
 }
 input:invalid { border-color: var(--voces-danger); }
 
@@ -210,6 +217,87 @@ input:invalid { border-color: var(--voces-danger); }
 .alert-info { background-color: var(--voces-info-bg); color: var(--voces-info); border-color: var(--voces-info); }
 .alert-warning { background-color: var(--voces-warning-bg); color: var(--voces-warning); border-color: var(--voces-warning); }
 
+/* ============ MURO DE REPORTES — FILTROS REORGANIZADOS ============ */
+.wall-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.wall-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--voces-purple-50), var(--voces-purple-100));
+  border: 2px solid var(--voces-purple-200);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.12);
+}
+
+body.dark-mode .filters-grid {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border-color: #4c1d95;
+  box-shadow: 0 8px 24px rgba(76, 29, 149, 0.35);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--voces-purple-700);
+  display: block;
+}
+
+body.dark-mode .filter-label { color: #a78bfa; }
+
+.filter-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  background-color: var(--voces-bg);
+  color: var(--voces-text);
+  border: 2px solid var(--voces-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+body.dark-mode .filter-select {
+  background-color: var(--voces-bg-alt);
+  border-color: var(--voces-border);
+  color: var(--voces-text);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--voces-purple-600);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
 /* Muro de reportes */
 .report-card {
   background-color: var(--voces-bg);
@@ -220,8 +308,8 @@ input:invalid { border-color: var(--voces-danger); }
   box-shadow: var(--voces-shadow);
   transition: all 0.3s ease;
 }
-.report-card:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); }
-html.dark .report-card:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.35); }
+.report-card:hover { transform: translateY(-2px); }
+body.dark-mode .report-card:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.35); }
 
 .report-card .category {
   display: inline-flex;
@@ -237,36 +325,11 @@ html.dark .report-card:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.35); }
   color: var(--voces-purple-700);
   border: 1px solid var(--voces-purple-200);
 }
-html.dark .report-card .category {
+body.dark-mode .report-card .category {
   background: linear-gradient(135deg, #312e81, #4c1d95);
   color: var(--voces-purple-300);
   border-color: #5b21b6;
 }
-
-/* Contenedor de filtros — rediseñado, no un rectángulo oscuro plano */
-.filter-section {
-  background: linear-gradient(135deg, var(--voces-purple-50), var(--voces-purple-100));
-  border: 2px solid var(--voces-purple-200);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.12);
-}
-html.dark .filter-section {
-  background: linear-gradient(135deg, #1e1b4b, #312e81);
-  border-color: #4c1d95;
-  box-shadow: 0 8px 24px rgba(76, 29, 149, 0.35);
-}
-.filter-section .filter-label {
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--voces-purple-700);
-  margin-bottom: 0.5rem;
-  display: block;
-}
-html.dark .filter-section .filter-label { color: var(--voces-purple-300); }
 
 /* Tabla admin */
 table.admin {
@@ -291,8 +354,8 @@ table.admin th {
   font-size: 0.7rem;
   border-bottom: 2px solid var(--voces-border);
 }
-html.dark table.admin th { background-color: var(--voces-bg-alt); }
-html.dark table.admin td { border-bottom-color: var(--voces-border); color: var(--voces-text); }
+body.dark-mode table.admin th { background-color: var(--voces-bg-alt); }
+body.dark-mode table.admin td { border-bottom-color: var(--voces-border); color: var(--voces-text); }
 
 /* Gráficas */
 .chart-wrap {
@@ -350,9 +413,9 @@ html.dark table.admin td { border-bottom-color: var(--voces-border); color: var(
   color: var(--voces-purple-700);
   border: 1px solid var(--voces-purple-200);
 }
-html.dark .vote-badge {
+body.dark-mode .vote-badge {
   background-color: #581c87;
-  color: var(--voces-purple-300);
+  color: #c7d2fe;
   border-color: #7e22ce;
 }
 
@@ -377,3 +440,13 @@ footer {
 .status-pendiente { background-color: var(--voces-warning-bg); color: var(--voces-warning); border: 1px solid var(--voces-warning); }
 .status-aprobado { background-color: var(--voces-success-bg); color: var(--voces-success); border: 1px solid var(--voces-success); }
 .status-rechazado { background-color: var(--voces-danger-bg); color: var(--voces-danger); border: 1px solid var(--voces-danger); }
+
+/* Texto de cuerpo legible */
+p, span, div {
+  color: var(--voces-text);
+}
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode div {
+  color: var(--voces-text);
+}

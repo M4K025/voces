@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="{% if dark_mode %}dark{% endif %}">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/app.css">
+  <style>
+    /* Prevenir parpadeo de tema al cargar */
+    [data-theme="dark"] body { background-color: #0f172a; color: #f8fafc; }
+    [data-theme="dark"] .card { background-color: #1e293b; border-color: #334155; }
+    [data-theme="dark"] .report-card { background-color: #1e293b; border-color: #334155; }
+    [data-theme="dark"] .chart-wrap { background-color: #1e293b; border-color: #334155; }
+    [data-theme="dark"] table.admin th { background-color: #1e293b; color: #cbd5e1; }
+    [data-theme="dark"] table.admin td { border-color: #334155; color: #f8fafc; }
+    [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select {
+      background-color: #1e293b; color: #f8fafc; border-color: #334155;
+    }
+    [data-theme="dark"] .filter-section { background: linear-gradient(135deg, #1e1b4b, #312e81); border-color: #4c1d95; }
+    [data-theme="dark"] .filter-section .filter-label { color: #a78bfa; }
+    [data-theme="dark"] .btn-secondary { background-color: #1e293b; color: #f8fafc; border-color: #334155; }
+    [data-theme="dark"] .btn-secondary:hover { background-color: #334155; }
+    [data-theme="dark"] .vote-badge { background-color: #581c87; color: #c7d2fe; border-color: #7e22ce; }
+    [data-theme="dark"] .category { background: linear-gradient(135deg, #312e81, #4c1d95); color: #c7d2fe; border-color: #5b21b6; }
+    [data-theme="dark"] .pagination a { background-color: #1e293b; color: #f8fafc; border-color: #334155; }
+    [data-theme="dark"] .pagination a:hover { background-color: #7e22ce; color: #ffffff; border-color: #7e22ce; }
+    [data-theme="dark"] footer { border-top-color: #334155; }
+    [data-theme="dark"] .alert { background-color: #1e293b; border-color: #334155; color: #f8fafc; }
+  </style>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="font-sans antialiased transition-colors duration-300">
@@ -16,26 +38,26 @@
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50">Saltar al contenido principal</a>
   {% endblock %}
 
-  <nav class="sticky top-0 z-50 shadow-sm border-b">
+  <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-20 items-center">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-violet-600 dark:bg-violet-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-violet-500/30">
+          <div class="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-violet-500/30">
             V
           </div>
           <div>
-            <h1 class="text-xl font-bold tracking-tight text-violet-900 dark:text-violet-100">VOCES</h1>
-            <span class="text-xs font-medium text-violet-700 dark:text-violet-300 uppercase tracking-wider">Facultad de Ingeniería</span>
+            <h1 class="text-xl font-bold tracking-tight text-black">VOCES</h1>
+            <span class="text-xs font-medium text-violet-700 uppercase tracking-wider">Facultad de Ingeniería</span>
           </div>
         </div>
         <div class="flex items-center gap-3">
           {% if admin_user %}
-            <a href="/admin" class="text-sm font-semibold text-violet-900 dark:text-violet-100 hover:text-violet-600 dark:hover:text-violet-400 transition-colors px-3 py-2 rounded-lg bg-violet-50 dark:bg-violet-900/50 hover:bg-violet-100 dark:hover:bg-violet-800/50">Panel admin</a>
-            <a href="/admin/logout" class="text-sm font-semibold text-violet-900 dark:text-violet-100 hover:text-violet-600 dark:hover:text-violet-400 transition-colors px-3 py-2 rounded-lg bg-violet-50 dark:bg-violet-900/50 hover:bg-violet-100 dark:hover:bg-violet-800/50">Cerrar sesión</a>
+            <a href="/admin" class="text-sm font-semibold text-black hover:text-violet-700 transition-colors px-3 py-2 rounded-lg bg-violet-50 hover:bg-violet-100">Panel admin</a>
+            <a href="/admin/logout" class="text-sm font-semibold text-black hover:text-violet-700 transition-colors px-3 py-2 rounded-lg bg-violet-50 hover:bg-violet-100">Cerrar sesión</a>
           {% else %}
-            <a href="/admin/login" class="text-sm font-semibold text-violet-900 dark:text-violet-100 hover:text-violet-600 dark:hover:text-violet-400 transition-colors px-3 py-2 rounded-lg bg-violet-50 dark:bg-violet-900/50 hover:bg-violet-100 dark:hover:bg-violet-800/50">Acceso administración</a>
+            <a href="/admin/login" class="text-sm font-semibold text-black hover:text-violet-700 transition-colors px-3 py-2 rounded-lg bg-violet-50 hover:bg-violet-100">Acceso administración</a>
           {% endif %}
-          <button id="themeToggle" class="w-10 h-10 rounded-xl flex items-center justify-center text-violet-900 dark:text-violet-100 hover:bg-violet-50 dark:hover:bg-violet-900/30 transition-all border border-violet-200 dark:border-violet-800" aria-label="Cambiar modo claro/oscuro" title="Modo claro/oscuro">
+          <button id="themeToggle" class="w-10 h-10 rounded-xl flex items-center justify-center text-black hover:bg-gray-100 transition-all border border-gray-300" aria-label="Cambiar modo claro/oscuro" title="Modo claro/oscuro">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
         </div>
@@ -49,12 +71,12 @@
 
   <footer class="border-t mt-auto py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-      <p class="font-medium text-violet-900 dark:text-violet-100">VOCES — Visibilización de problemáticas de género, Facultad de Ingeniería, Universidad Distrital Francisco José de Caldas.</p>
-      <p class="text-violet-700 dark:text-violet-300">Herramienta anónima y segura. No se guardan IPs, correos ni cookies de seguimiento. Conforme a la Ley 1581 de 2012 (Habeas Data, Colombia).</p>
+      <p class="font-medium text-black">VOCES — Visibilización de problemáticas de género, Facultad de Ingeniería, Universidad Distrital Francisco José de Caldas.</p>
+      <p class="text-gray-700">Herramienta anónima y segura. No se guardan IPs, correos ni cookies de seguimiento. Conforme a la Ley 1581 de 2012 (Habeas Data, Colombia).</p>
       <div class="flex gap-4">
-        <a href="/categorias" class="text-violet-700 dark:text-violet-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition-colors">Categorías</a>
-        <a href="/apoyo" class="text-violet-700 dark:text-violet-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition-colors">Apoyo</a>
-        <a href="/como-actuar" class="text-violet-700 dark:text-violet-300 hover:text-violet-600 dark:hover:text-violet-400 font-medium transition-colors">Cómo actuar</a>
+        <a href="/categorias" class="text-violet-700 hover:text-violet-900 font-medium transition-colors">Categorías</a>
+        <a href="/apoyo" class="text-violet-700 hover:text-violet-900 font-medium transition-colors">Apoyo</a>
+        <a href="/como-actuar" class="text-violet-700 hover:text-violet-900 font-medium transition-colors">Cómo actuar</a>
       </div>
     </div>
   </footer>
@@ -62,24 +84,33 @@
   <script>
     (function() {
       const btn = document.getElementById('themeToggle');
+      const body = document.body;
       const html = document.documentElement;
-      const saved = localStorage.getItem('voces-theme');
 
-      function applyTheme(dark) {
-        if (dark) {
-          html.classList.add('dark');
+      // Detectar tema guardado o preferencia del sistema
+      function getInitialTheme() {
+        const saved = localStorage.getItem('voces-theme');
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+          body.classList.add('dark-mode');
         } else {
-          html.classList.remove('dark');
+          html.removeAttribute('data-theme');
+          body.classList.remove('dark-mode');
         }
       }
 
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        applyTheme(true);
-      }
+      applyTheme(getInitialTheme());
 
       btn.addEventListener('click', function() {
-        const isDark = html.classList.toggle('dark');
-        localStorage.setItem('voces-theme', isDark ? 'dark' : 'light');
+        const isDark = body.classList.contains('dark-mode');
+        const newTheme = isDark ? 'light' : 'dark';
+        localStorage.setItem('voces-theme', newTheme);
+        applyTheme(newTheme);
       });
     })();
   </script>

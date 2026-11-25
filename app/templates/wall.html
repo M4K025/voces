@@ -2,84 +2,93 @@
 
 {% block content %}
 <div class="space-y-6">
+  <!-- Encabezado del muro -->
   <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Lo que se escucha</h1>
-      <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
-        Frases y situaciones anónimas aprobadas por el equipo de moderación. Puedes filtrar por categoría, lugar y semestre.
+      <h1 class="text-3xl font-bold tracking-tight">Lo que se escucha</h1>
+      <p class="text-lg mt-2 max-w-2xl">
+        Frases y situaciones anónimas aprobadas por el equipo de moderación.
+        Puedes filtrar por categoría, lugar y semestre.
       </p>
     </div>
     <a href="/reportar" class="btn btn-primary">+ Reportar de forma anónima</a>
   </header>
 
-  <!-- Filtros -->
-  <form method="get" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Categoría</label>
-    <select name="category" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500">
-      <option value="">Todas</option>
-      {% for key, label in category_labels.items() %}
-        <option value="{{ key }}" {% if current_category == key %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
+  <!-- Filtros reorganizados y claros -->
+  <form method="get" class="filters-grid">
+    <div class="filter-group">
+      <span class="filter-label">Categoría</span>
+      <select name="category" class="filter-select">
+        <option value="">Todas las categorías</option>
+        {% for key, label in category_labels.items() %}
+          <option value="{{ key }}" {% if current_category == key %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Lugar</label>
-    <select name="place" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500">
-      <option value="">Todos</option>
-      {% for p in places %}
-        <option value="{{ p.key }}" {% if current_place == p.key %}selected{% endif %}>{{ p.name }}</option>
-      {% endfor %}
-    </select>
+    <div class="filter-group">
+      <span class="filter-label">Lugar</span>
+      <select name="place" class="filter-select">
+        <option value="">Todos los lugares</option>
+        {% for p in places %}
+          <option value="{{ p.key }}" {% if current_place == p.key %}selected{% endif %}>{{ p.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Semestre / mes</label>
-    <select name="period" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500">
-      <option value="">Todos</option>
-      {% for p in periods %}
-        <option value="{{ p }}" {% if current_period == p %}selected{% endif %}>{{ p }}</option>
-      {% endfor %}
-    </select>
+    <div class="filter-group">
+      <span class="filter-label">Semestre / mes</span>
+      <select name="period" class="filter-select">
+        <option value="">Todos los periodos</option>
+        {% for p in periods %}
+          <option value="{{ p }}" {% if current_period == p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <div class="flex items-end">
-      <button class="btn btn-primary w-full sm:w-auto">Filtrar</button>
-      <a href="/" class="btn btn-secondary w-full sm:w-auto text-center">Limpiar</a>
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+      <a href="/" class="btn btn-secondary">Limpiar filtros</a>
     </div>
   </form>
 
-  <p class="text-sm text-gray-600 dark:text-gray-400">{{ total }} reporte{{ 's' if total != 1 else '' }} aprobado{{ 's' if total != 1 else '' }}.</p>
+  <!-- Contador -->
+  <p class="text-lg font-semibold">{{ total }} reporte{{ 's' if total != 1 else '' }} aprobado{{ 's' if total != 1 else '' }}.</p>
 
   <!-- Muro de reportes -->
   <div class="space-y-4">
     {% for r in reports %}
     <article class="report-card">
-      <div class="flex justify-between items-start mb-2">
-        <span class="category bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">
+      <div class="flex justify-between items-start mb-3">
+        <span class="category">
           {{ category_labels.get(r.category, r.category) }}
         </span>
         {% if r.is_demo %}
           <span class="badge-demo">DEMO</span>
         {% endif %}
       </div>
-      <p class="text-gray-800 dark:text-gray-200 text-base leading-relaxed mb-3">{{ r.content }}</p>
-      <div class="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400 mb-3">
-        <span>{{ r.place }}</span>
-        {% if r.period %}<span>· {{ r.period }}</span>{% endif %}
-        {% if r.actor_role %}<span>· Dijo: {{ r.actor_role }}</span>{% endif %}
+      <p class="text-lg leading-relaxed mb-3">{{ r.content }}</p>
+      <div class="flex flex-wrap gap-2 text-sm mb-3">
+        <span class="font-medium">📍 {{ r.place }}</span>
+        {% if r.period %}<span class="font-medium">· {{ r.period }}</span>{% endif %}
+        {% if r.actor_role %}<span class="font-medium">· Dijo: {{ r.actor_role }}</span>{% endif %}
       </div>
       <div class="flex items-center gap-4">
         <button
           onclick="voteReport({{ r.id }})"
-          class="btn btn-secondary flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-600"
+          class="btn btn-secondary flex items-center gap-2"
           aria-label="A mí también me pasó"
           title="A mí también me pasó"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 3"></path></svg>
           <span id="vote-text-{{ r.id }}">A mí también me pasó</span>
         </button>
-        <span id="vote-count-{{ r.id }}" class="text-xs text-gray-500 dark:text-gray-400"></span>
+        <span id="vote-count-{{ r.id }}" class="font-semibold"></span>
       </div>
     </article>
     {% else %}
-    <div class="text-center py-12">
-      <p class="text-gray-500 dark:text-gray-400">No hay reportes aprobados aún con estos filtros.</p>
+    <div class="text-center py-16">
+      <p class="text-lg">No hay reportes aprobados aún con estos filtros.</p>
     </div>
     {% endfor %}
   </div>
@@ -88,17 +97,17 @@
   {% if pages > 1 %}
   <nav class="flex justify-center gap-2" aria-label="Paginación">
     {% if page > 1 %}
-      <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ page - 1 }}" class="px-3 py-1 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Anterior</a>
+      <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ page - 1 }}" class="px-4 py-2 rounded-lg border font-semibold">Anterior</a>
     {% endif %}
     {% for p in range(1, pages + 1) %}
       {% if p == page %}
-        <span class="px-3 py-1 rounded border bg-indigo-600 text-white border-indigo-600">{{ p }}</span>
+        <span class="px-4 py-2 rounded-lg border bg-violet-600 text-white border-violet-600 font-semibold">{{ p }}</span>
       {% else %}
-        <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ p }}" class="px-3 py-1 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ p }}</a>
+        <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ p }}" class="px-4 py-2 rounded-lg border font-semibold">{{ p }}</a>
       {% endif %}
     {% endfor %}
     {% if page < pages %}
-      <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ page + 1 }}" class="px-3 py-1 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Siguiente</a>
+      <a href="?category={{ current_category or '' }}&place={{ current_place or '' }}&period={{ current_period or '' }}&page={{ page + 1 }}" class="px-4 py-2 rounded-lg border font-semibold">Siguiente</a>
     {% endif %}
   </nav>
   {% endif %}
