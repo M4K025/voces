@@ -3,23 +3,23 @@
 {% block content %}
 <div class="max-w-md mx-auto">
   <div class="card">
-    <h1 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Iniciar sesión — Administración</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-6">
+    <h1 class="text-xl font-bold text-black mb-2">Iniciar sesión — Administración</h1>
+    <p class="text-sm text-black mb-6">
       Acceso restringido al panel de moderación y dashboard. La contraseña se define mediante la variable de entorno VOCES_ADMIN_PASSWORD.
     </p>
     <form method="post" action="/admin/login" class="space-y-4">
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <div>
-        <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Usuario</label>
-        <input type="text" id="username" name="username" required value="admin">
+        <label for="username" class="block text-sm font-medium text-black mb-1">Usuario</label>
+        <input type="text" id="username" name="username" required value="admin" class="w-full">
       </div>
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contraseña</label>
-        <input type="password" id="password" name="password" required>
+        <label for="password" class="block text-sm font-medium text-black mb-1">Contraseña</label>
+        <input type="password" id="password" name="password" required class="w-full">
       </div>
       <button type="submit" class="btn btn-primary w-full">Ingresar</button>
     </form>
-    <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
+    <p class="mt-4 text-xs text-black">
       Si no has definido VOCES_ADMIN_PASSWORD, la app no iniciará. En demo, usuario: admin / contraseña: según variable de entorno.
     </p>
   </div>
